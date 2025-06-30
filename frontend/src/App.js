@@ -4,6 +4,7 @@ import { useState } from 'react';
 
 function App() {
   const [message, setMessage] = useState('');
+  const [cast, setCast] = useState([]);
 
   const fetchHello = async () => {
     try {
@@ -15,12 +16,34 @@ function App() {
     }
   };
 
+  const fetchCast = async () => {
+    try {
+      const response = await fetch('/api/cast');
+      if (!response.ok) throw new Error('Failed to fetch cast');
+      const data = await response.json();
+      setCast(data);
+    } catch (error) {
+      setCast([{ name: 'Error fetching cast', firstAppearance: '' }]);
+    }
+  };
+
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <button onClick={fetchHello} style={{margin: '20px', padding: '10px 20px'}}>Say Hello (Backend)</button>
+        <button onClick={fetchCast} style={{margin: '20px', padding: '10px 20px'}}>Show MCU Cast</button>
         {message && <p>{message}</p>}
+        {cast.length > 0 && (
+          <div style={{marginTop: '20px'}}>
+            <h3>MCU Cast and First Appearance</h3>
+            <ul style={{textAlign: 'left'}}>
+              {cast.map((member, idx) => (
+                <li key={idx}><b>{member.name}</b>: {member.firstAppearance}</li>
+              ))}
+            </ul>
+          </div>
+        )}
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
