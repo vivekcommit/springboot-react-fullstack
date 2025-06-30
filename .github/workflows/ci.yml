@@ -33,6 +33,9 @@ jobs:
             pg_isready -h localhost -p 5432 -U postgres && break
             sleep 2
           done
+      - name: Make Maven Wrapper Executable
+        run: chmod +x ./mvnw
+        working-directory: backend
       - name: Build and test with Maven
         run: ./mvnw test -Dspring.profiles.active=github
         working-directory: backend
