@@ -9,12 +9,12 @@ public class CastMemberDataLoader {
     @Bean
     CommandLineRunner initDatabase(CastMemberRepository repository) {
         return args -> {
-            repository.save(new CastMember("Robert Downey Jr.", "Iron Man (2008)"));
-            repository.save(new CastMember("Chris Evans", "Captain America: The First Avenger (2011)"));
-            repository.save(new CastMember("Scarlett Johansson", "Iron Man 2 (2010)"));
-            repository.save(new CastMember("Chris Hemsworth", "Thor (2011)"));
-            repository.save(new CastMember("Mark Ruffalo", "The Avengers (2012)"));
-            repository.save(new CastMember("Tom Holland", "Captain America: Civil War (2016)"));
+            // Insert 1000 cast members
+            for (int i = 1; i <= 1000; i++) {
+                String name = "Actor " + i;
+                String movie = "Movie " + ((i % 100) + 1) + " (20" + String.format("%02d", (i % 25) + 1) + ")";
+                repository.save(new CastMember(name, movie));
+            }
         };
     }
 }
