@@ -15,8 +15,15 @@ public class BackendApplication {
 	public static void main(String[] args) {
 		logger.debug("[WORKFLOW] Entered main() in BackendApplication");
 		logger.info("Starting BackendApplication...");
-		SpringApplication.run(BackendApplication.class, args);
-		logger.info("BackendApplication started.");
+		try {
+			SpringApplication.run(BackendApplication.class, args);
+			logger.info("BackendApplication started.");
+		} catch (Exception ex) {
+			logger.error("Exception in BackendApplication main(): ", ex);
+			throw ex;
+		} finally {
+			logger.debug("[WORKFLOW] Exiting main() in BackendApplication");
+		}
 	}
 
 	@Bean

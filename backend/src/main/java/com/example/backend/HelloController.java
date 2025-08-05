@@ -12,6 +12,13 @@ public class HelloController {
     public String hello() {
         logger.debug("[WORKFLOW] Entered hello() in HelloController");
         logger.info("Hello endpoint called");
-        return "Hello from Spring Boot backend!";
+        try {
+            return "Hello from Spring Boot backend!";
+        } catch (Exception ex) {
+            logger.error("Exception in hello(): ", ex);
+            throw ex;
+        } finally {
+            logger.debug("[WORKFLOW] Exiting hello() in HelloController");
+        }
     }
 }

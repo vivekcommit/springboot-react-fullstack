@@ -14,14 +14,21 @@ public class CastMemberDataLoader {
         return args -> {
             logger.debug("[WORKFLOW] Entered initDatabase() in CastMemberDataLoader");
             logger.info("Initializing database with 1000 cast members");
-            // Insert 1000 cast members
-            for (int i = 1; i <= 1000; i++) {
-                String name = "Actor " + i;
-                String movie = "Movie " + ((i % 100) + 1) + " (20" + String.format("%02d", (i % 25) + 1) + ")";
-                repository.save(new CastMember(name, movie));
+            try {
+                // Insert 1000 cast members
+                for (int i = 1; i <= 1000; i++) {
+                    String name = "Actor " + i;
+                    String movie = "Movie " + ((i % 100) + 1) + " (20" + String.format("%02d", (i % 25) + 1) + ")";
+                    repository.save(new CastMember(name, movie));
+                }
+                logger.debug("[WORKFLOW] Finished inserting cast members in initDatabase()");
+                logger.info("Database initialization complete");
+            } catch (Exception ex) {
+                logger.error("Exception in initDatabase(): ", ex);
+                throw ex;
+            } finally {
+                logger.debug("[WORKFLOW] Exiting initDatabase() in CastMemberDataLoader");
             }
-            logger.debug("[WORKFLOW] Finished inserting cast members in initDatabase()");
-            logger.info("Database initialization complete");
         };
     }
 }

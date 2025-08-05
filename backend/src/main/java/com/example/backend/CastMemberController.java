@@ -20,6 +20,13 @@ public class CastMemberController {
     public List<CastMember> getAllCast() {
         logger.debug("[WORKFLOW] Entered getAllCast() in CastMemberController");
         logger.info("Fetching all cast members");
-        return castMemberRepository.findAll();
+        try {
+            return castMemberRepository.findAll();
+        } catch (Exception ex) {
+            logger.error("Exception in getAllCast(): ", ex);
+            throw ex;
+        } finally {
+            logger.debug("[WORKFLOW] Exiting getAllCast() in CastMemberController");
+        }
     }
 }

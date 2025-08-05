@@ -19,13 +19,27 @@ public class MessageController {
     public List<Message> getAll() {
         logger.debug("[WORKFLOW] Entered getAll() in MessageController");
         logger.info("Fetching all messages");
-        return repo.findAll();
+        try {
+            return repo.findAll();
+        } catch (Exception ex) {
+            logger.error("Exception in getAll(): ", ex);
+            throw ex;
+        } finally {
+            logger.debug("[WORKFLOW] Exiting getAll() in MessageController");
+        }
     }
 
     @PostMapping
     public Message create(@RequestBody Message message) {
         logger.debug("[WORKFLOW] Entered create() in MessageController with text: {}", message.getText());
         logger.info("Creating new message: {}", message.getText());
-        return repo.save(message);
+        try {
+            return repo.save(message);
+        } catch (Exception ex) {
+            logger.error("Exception in create(): ", ex);
+            throw ex;
+        } finally {
+            logger.debug("[WORKFLOW] Exiting create() in MessageController");
+        }
     }
 }
