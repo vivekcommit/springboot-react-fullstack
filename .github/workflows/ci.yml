@@ -1,45 +1,4 @@
 name: CI
-
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    services:
-      postgres:
-        image: postgres:16
-        env:
-          POSTGRES_DB: testdb
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd "pg_isready -U postgres" --health-interval 10s --health-timeout 5s --health-retries 5
-    steps:
-      - uses: actions/checkout@v4
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: '17'
-      - name: Wait for PostgreSQL
-        run: |
-          for i in {1..30}; do
-            pg_isready -h localhost -p 5432 -U postgres && break
-            sleep 2
-          done
-      - name: Make Maven Wrapper Executable
-        run: chmod +x ./mvnw
-        working-directory: backend
-      - name: Build and test with Maven
-        run: ./mvnw test -Dspring.profiles.active=github
-        working-directory: backend
-name: CI
 on:
   push:
     branches: [ main ]
